@@ -1,14 +1,20 @@
-# Use minimal Java 17 image
-FROM openjdk:17-jdk-slim
+# ---------- Stage 1: Build ----------
+FROM maven:3.9.4-eclipse-temurin-17 AS build
 
-# Create directory
 WORKDIR /app
 
-# Copy JAR from target folder
-COPY target/Transfero-0.0.1-SNAPSHOT.jar app.jar
+COPY pom.xml .
+COPY src ./src
 
-# Expose the port
+RUN mvn clean package -DskipTests
+
+# ---------- Stage 2: Run ----------
+FROM openjdk:17-jdk-slim
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
 
-# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -1,5 +1,7 @@
 target/
-.git/
+.git
 .gitignore
-README.md
 Dockerfile
+README.md
+*.iml
+.idea
