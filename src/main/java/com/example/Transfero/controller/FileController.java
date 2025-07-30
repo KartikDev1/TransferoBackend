@@ -17,7 +17,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = {
+        "http://localhost:3000",
+        "https://transfero-frontend.vercel.app"
+})
 public class FileController {
 
     @Autowired
