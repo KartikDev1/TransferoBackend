@@ -9,12 +9,22 @@ public class TransferoApplication {
 
 	public static void main(String[] args) {
 
-		Dotenv dotenv = Dotenv.load();
+		// Only load .env in local dev
+		if (isLocalEnvironment()) {
+			Dotenv dotenv = Dotenv.configure()
+					.ignoreIfMissing()
+					.load();
 
-		System.setProperty("MONGODB_URI", dotenv.get("MONGODB_URI"));
-		System.setProperty("APP_BASE_URL", dotenv.get("APP_BASE_URL"));
+			System.setProperty("MONGODB_URI", dotenv.get("MONGODB_URI"));
+			System.setProperty("APP_BASE_URL", dotenv.get("APP_BASE_URL"));
+		}
 
 		SpringApplication.run(TransferoApplication.class, args);
+	}
+
+	private static boolean isLocalEnvironment() {
+		String env = System.getenv("RENDER");
+		return env == null || env.isEmpty();
 	}
 
 }
