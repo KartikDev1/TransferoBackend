@@ -20,6 +20,8 @@ import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.*;
 
+import static com.example.Transfero.util.ShortCodeGenerator.generateCode;
+
 @Service
 public class FileService {
 
@@ -30,15 +32,6 @@ public class FileService {
     private String baseUrl;
 
 
-    public String generateCode() {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder sb = new StringBuilder();
-        Random rand = new SecureRandom();
-        for (int i = 0; i < 6; i++) {
-            sb.append(chars.charAt(rand.nextInt(chars.length())));
-        }
-        return sb.toString();
-    }
 
     public FileMeta storeFile(MultipartFile file) throws Exception {
         // Create short code and download URL

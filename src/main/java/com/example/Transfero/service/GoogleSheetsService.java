@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class GoogleSheetsService {
     private static final String APPLICATION_NAME = "Transfero";
-    private static final String SPREADSHEET_ID = "1RhzvW6OPjIdxMZn9SbvNgqCOUJnRMb6SsdNYjxn6QpA"; // ← Replace this
+    private static final String SPREADSHEET_ID = System.getenv("GOOGLE_SHEET_ID"); // ← Replace this
     private static final String RANGE = "Sheet1!A:E";
 
     public void saveContact(String name, String email,String message) throws Exception {
