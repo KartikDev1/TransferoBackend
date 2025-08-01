@@ -9,8 +9,10 @@ import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -20,7 +22,16 @@ public class GoogleSheetsService {
     private static final String RANGE = "Sheet1!A:E";
 
     public void saveContact(String name, String email,String message) throws Exception {
-        InputStream in = getClass().getResourceAsStream("/credentials.json");
+        InputStream in;
+        String base64 = System.getenv("GOOGLE_CREDENTIALS");
+
+        if (base64 != null && !base64.isEmpty()) {
+            byte[] decodedBytes = Base64.getDecoder().decode(base64);
+            in = new ByteArrayInputStream(decodedBytes);
+        } else {
+            in = getClass().getResourceAsStream("/credentials.json"); // Local fallback
+        }
+
         GoogleCredentials credentials = GoogleCredentials.fromStream(in)
                 .createScoped(List.of("https://www.googleapis.com/auth/spreadsheets"));
 

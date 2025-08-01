@@ -127,6 +127,15 @@
 			<version>32.1.3-jre</version> <!-- Use the latest stable version -->
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+			<version>3.5.4</version>
+			<scope>test</scope>
+		</dependency>
+
+
+
 
 	</dependencies>
 
