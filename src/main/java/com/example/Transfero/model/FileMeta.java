@@ -18,11 +18,16 @@ public class FileMeta {
 
     private String shortCode;         // 6-character download code
     private String downloadUrl;       // Public download URL
+    private String groupDownloadUrl;
+
     private String qrCodeBase64;      // QR image for scanning
 
     private Date createdAt;           // Used for TTL index (10 mins)
 
     private byte[] fileData;          // File content stored directly in MongoDB
+
+    private String groupCode;
+
 
     // Getters & Setters
     public String getId() {
@@ -95,5 +100,21 @@ public class FileMeta {
 
     public void setFileData(byte[] fileData) {
         this.fileData = fileData;
+    }
+
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
+
+    public String getGroupDownloadUrl() {
+        return groupDownloadUrl;
+    }
+
+    public void setGroupDownloadUrl(String groupDownloadUrl) {
+        this.groupDownloadUrl = groupDownloadUrl;
     }
 }

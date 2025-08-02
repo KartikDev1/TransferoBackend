@@ -4,6 +4,8 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 public class ShortCodeGenerator {
+
+
     public static String generateCode() {
         String chars = System.getenv("GEN_CODE_CHARS"); // Get from environment
         if (chars == null || chars.isEmpty()) {

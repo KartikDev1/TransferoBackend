@@ -33,14 +33,16 @@ public class FileService {
 
 
 
-    public FileMeta storeFile(MultipartFile file) throws Exception {
+    public FileMeta storeFile(MultipartFile file,String groupCode) throws Exception {
         // Create short code and download URL
         String shortCode = generateCode();
-        String downloadUrl = baseUrl + "/api/download/" + shortCode;
+
+        String singleDownloadUrl = baseUrl + "/api/download/" + shortCode;
+        String groupDownloadUrl = baseUrl + "/api/download/group/" + groupCode;
 
         // QR code generation
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        var bitMatrix = qrCodeWriter.encode(downloadUrl, BarcodeFormat.QR_CODE, 200, 200);
+        var bitMatrix = qrCodeWriter.encode(singleDownloadUrl, BarcodeFormat.QR_CODE, 200, 200);
         ByteArrayOutputStream qrOut = new ByteArrayOutputStream();
         MatrixToImageWriter.writeToStream(bitMatrix, "PNG", qrOut);
         String qrBase64 = "data:image/png;base64," + Base64.getEncoder().encodeToString(qrOut.toByteArray());
@@ -54,7 +56,9 @@ public class FileService {
         meta.setContentType(file.getContentType());
         meta.setSize(file.getSize());
         meta.setShortCode(shortCode);
-        meta.setDownloadUrl(downloadUrl);
+        meta.setGroupCode(groupCode);
+        meta.setDownloadUrl(singleDownloadUrl);
+        meta.setGroupDownloadUrl(groupDownloadUrl);
         meta.setQrCodeBase64(qrBase64);
         meta.setCreatedAt(new Date());
         meta.setFileData(fileBytes); // set file bytes into MongoDB
@@ -68,6 +72,10 @@ public class FileService {
 
     public byte[] downloadFile(FileMeta meta) throws IOException {
         return meta.getFileData();
+    }
+
+    public List<FileMeta> getFilesByGroupCode(String groupCode) {
+        return fileRepo.findByGroupCode(groupCode);
     }
 
 }
